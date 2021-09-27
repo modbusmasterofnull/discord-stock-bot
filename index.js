@@ -14,7 +14,7 @@ client.once('ready', () => {
     const res = await responseClient.get();
     const quote = responseClient.parseMarketPrice(res);
     const marketState = quote.marketState.toLowerCase();
-    var price = quote[`${marketState}MarketPrice`)]?.fmt;
+    var price = quote[`${marketState}MarketPrice`]?.fmt;
     /*if (quote.MarketState == 'PRE') {
       price = quote.preMarketPrice.fmt;
     } else if (quote.marketState == 'POST') {
