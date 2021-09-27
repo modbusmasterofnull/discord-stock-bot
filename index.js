@@ -10,24 +10,24 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.once('ready', () => {
   const responseClient = new Response(API_URL);
 
-	setInterval(async () => {
+  setInterval(async () => {
     const res = await responseClient.get();
     const price = responseClient.parseMarketPrice(res);
 
     const newNickname = `TSLA: \$${price.toString()}`;
 
-		const guildIds = client.guilds.cache.map(guild => guild.id);
+    const guildIds = client.guilds.cache.map(guild => guild.id);
 
-		guildIds.forEach(async guildId => {
-			const guild = await client.guilds.fetch(guildId);
-	
-			guild.me.setNickname(newNickname);
+    guildIds.forEach(async guildId => {
+      const guild = await client.guilds.fetch(guildId);
 
-			console.log(`Setting nickname to ${newNickname}`);
-		});
-	}, UPDATE_FREQUENCY_MS);
+      guild.me.setNickname(newNickname);
 
-	console.log('Bot is ready...');
+      console.log(`Setting nickname to ${newNickname}`);
+    });
+  }, UPDATE_FREQUENCY_MS);
+
+  console.log('Bot is ready...');
 });
 
 client.login(TOKEN);

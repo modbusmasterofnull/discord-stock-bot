@@ -1,13 +1,13 @@
 import fetch from 'node-fetch';
 
 class Response {
-  constructor(url){
+  constructor(url) {
     this.url = url;
   }
 
   async get() {
     const response = await fetch(this.url);
-    return response.json();  
+    return response.json();
   }
 
   parseMarketPrice(data) {
