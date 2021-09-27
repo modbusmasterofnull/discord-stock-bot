@@ -12,9 +12,20 @@ client.once('ready', () => {
 
   setInterval(async () => {
     const res = await responseClient.get();
-    const price = responseClient.parseMarketPrice(res);
+    const quote = responseClient.parseMarketPrice(res);
+    const marketState = quote.marketState.toLowerCase();
+    var price = quote[`${marketState}MarketPrice`)]?.fmt;
+    /*if (quote.MarketState == 'PRE') {
+      price = quote.preMarketPrice.fmt;
+    } else if (quote.marketState == 'POST') {
+      price = quote.postMarketPrice.fmt;
+    } else {
+      price = quote.regularMarketPrice.fmt;
+    }*/
+    
+    //quote.regularMarketPrice?.raw
 
-    const newNickname = `TSLA: \$${price.toString()}`;
+    const newNickname = `TSLA: \$${price}`;
 
     const guildIds = client.guilds.cache.map(guild => guild.id);
 
