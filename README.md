@@ -2,6 +2,10 @@
 
 # How to Use
 
+```
+TOKEN=blablabla FREQUENCY=20000 node index.js
+```
+
 ## Environment Variables
 
 `TOKEN` is the discord bot token. This is _required_.
