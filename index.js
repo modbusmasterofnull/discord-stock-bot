@@ -14,18 +14,27 @@ client.once('ready', () => {
     const res = await responseClient.get();
     const quote = responseClient.parseMarketPrice(res);
     const marketState = quote.marketState.toLowerCase();
-    var price = quote[`${marketState}MarketPrice`]?.fmt;
-    /*if (quote.MarketState == 'PRE') {
-      price = quote.preMarketPrice.fmt;
-    } else if (quote.marketState == 'POST') {
-      price = quote.postMarketPrice.fmt;
-    } else {
-      price = quote.regularMarketPrice.fmt;
-    }*/
-    
-    //quote.regularMarketPrice?.raw
+    const price = quote[`${marketState}MarketPrice`];
+    const previousClose = quote.regularMarketPreviousClose;
 
-    const newNickname = `TSLA: \$${price}`;
+    const newNickname = `TSLA: \$${price.fmt}`;
+
+    const guildIds = client.guilds.cache.map(guild => guild.id);
+
+    guildIds.forEach(async guildId => {
+      const guild = await client.guilds.fetch(guildId);
+      var marketState = quote.marketState.toLowerCase();
+    if (marketState == 'postpost') {
+      marketState = 'post';
+    }
+
+    const price = quote[`${marketState}MarketPrice`] || 0;
+    const previousClose = quote.regularMarketPreviousClose || 0;
+    const changeAmount = quote[`${marketState}MarketChange`]?.fmt || '--';
+    const changePercent = quote[`${marketState}MarketChangePercent`]?.fmt || '--';
+    const isGreen = price >= previousClose ? true : false;
+
+    const newNickname = `TSLA: \$${price.fmt}`;
 
     const guildIds = client.guilds.cache.map(guild => guild.id);
 
@@ -34,7 +43,20 @@ client.once('ready', () => {
 
       guild.me.setNickname(newNickname);
 
+      client.user.setActivity(`${marketState}market \$${changeAmount} (${changePercent}) `, { type: 'WATCHING' });
+
       console.log(`Setting nickname to ${newNickname}`);
+
+      const green = guild.roles.cache.find(role => role.name == 'tickers-green');
+      const red = guild.roles.cache.find(role => role.name == 'tickers-red');
+
+      if (isGreen) {
+        guild.me.roles.remove(red).catch(console.log('error removing red role'));
+        guild.me.roles.add(green).catch(console.log('error adding green role'));
+      } else {
+        guild.me.roles.remove(green).catch(console.log('error removing green role'));
+        guild.me.roles.add(red).catch(console.log('error adding red role'));
+      }
     });
   }, UPDATE_FREQUENCY_MS);
 
