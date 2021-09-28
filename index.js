@@ -32,6 +32,7 @@ client.once('ready', () => {
 			client.user.setActivity(`${marketState} \$${changeAmount} (${changePercent}) `, { type: 'WATCHING' });
 
 			console.log(`Setting nickname to ${newNickname}`);
+			console.log(`Ticker is green: ${isGreen}`);
 
 			const greenRole = guild.roles.cache.find(role => role.name == 'tickers-green');
 			const redRole = guild.roles.cache.find(role => role.name == 'tickers-red');
@@ -39,11 +40,9 @@ client.once('ready', () => {
 			if (isGreen) {
 				guild.me.roles.remove(redRole);
 				guild.me.roles.add(greenRole);
-				console.log('Ticker is green')
 			} else {
 				guild.me.roles.remove(greenRole);
 				guild.me.roles.add(redRole);
-				console.log('Ticker is red');
 			}
 		});
 	}, UPDATE_FREQUENCY_MS);
