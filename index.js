@@ -14,8 +14,8 @@ client.once('ready', () => {
 		const res = await responseClient.get();
 		const quote = responseClient.parseMarketPrice(res);
 		var marketState = quote.marketState.toLowerCase() == 'postpost' ? 'post' : quote.marketState.toLowerCase();
-		const price = quote[`${marketState}MarketPrice`] || 0;
-		const previousClose = quote.regularMarketPreviousClose || 0;
+		const price = quote[`${marketState}MarketPrice`]?.raw || 0;
+		const previousClose = quote.regularMarketPreviousClose?.raw || 0;
 		const changeAmount = quote[`${marketState}MarketChange`]?.fmt || '--';
 		const changePercent = quote[`${marketState}MarketChangePercent`]?.fmt || '--';
 		const isGreen = price >= previousClose ? true : false;
@@ -32,15 +32,16 @@ client.once('ready', () => {
 			client.user.setActivity(`${marketState} \$${changeAmount} (${changePercent}) `, { type: 'WATCHING' });
 
 			console.log(`Setting nickname to ${newNickname}`);
-			console.log(`Ticker is green: ${isGreen}`);
 
 			const greenRole = guild.roles.cache.find(role => role.name == 'tickers-green');
 			const redRole = guild.roles.cache.find(role => role.name == 'tickers-red');
 
 			if (isGreen) {
+				console.log(`Ticker is Green`)
 				guild.me.roles.remove(redRole);
 				guild.me.roles.add(greenRole);
 			} else {
+				console.log(`Ticker is Red`)
 				guild.me.roles.remove(greenRole);
 				guild.me.roles.add(redRole);
 			}
