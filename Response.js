@@ -11,7 +11,7 @@ class Response {
   }
 
   parseMarketPrice(data) {
-    return data?.quoteSummary?.result[0]?.price?.regularMarketPrice?.raw;
+    return data?.quoteSummary?.result[0]?.price;
   }
 }
 
