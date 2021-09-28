@@ -13,16 +13,12 @@ client.once('ready', () => {
   setInterval(async () => {
     const res = await responseClient.get();
     const quote = responseClient.parseMarketPrice(res);
-    var marketState = quote.marketState.toLowerCase();
+    var marketState = quote.marketState.toLowerCase() == 'postpost' ? 'post' : quote.marketState.toLowerCase();
     const price = quote[`${marketState}MarketPrice`] || 0;
     const previousClose = quote.regularMarketPreviousClose || 0;
     const changeAmount = quote[`${marketState}MarketChange`]?.fmt || '--';
     const changePercent = quote[`${marketState}MarketChangePercent`]?.fmt || '--';
     const isGreen = price >= previousClose ? true : false;
-    
-    if (marketState == 'postpost') {
-      marketState = 'post';
-    }
 
     const newNickname = `TSLA: \$${price.fmt}`;
 
