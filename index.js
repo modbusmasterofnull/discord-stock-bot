@@ -46,8 +46,7 @@ client.once('ready', () => {
 				console.log('Ticker is red');
 			}
 		});
-	}
-}, UPDATE_FREQUENCY_MS);
+	}, UPDATE_FREQUENCY_MS);
 
 console.log('Bot is ready...');
 });
