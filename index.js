@@ -9,6 +9,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once('ready', () => {
   const responseClient = new Response(API_URL);
+  var previousPrice = 0;
 
   setInterval(async () => {
     const res = await responseClient.get();
@@ -24,7 +25,8 @@ client.once('ready', () => {
 
     const guildIds = client.guilds.cache.map(guild => guild.id);
 
-    guildIds.forEach(async guildId => {
+    if (price != previousPrice) {
+      guildIds.forEach(async guildId => {
       const guild = await client.guilds.fetch(guildId);
 
       guild.me.setNickname(newNickname);
@@ -45,7 +47,10 @@ client.once('ready', () => {
         guild.me.roles.add(red);
         console.log('Ticker is red');
       }
+        
+      previousPrice = price;
     });
+    }
   }, UPDATE_FREQUENCY_MS);
 
   console.log('Bot is ready...');
