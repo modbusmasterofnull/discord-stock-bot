@@ -39,9 +39,11 @@ client.once('ready', () => {
       if (isGreen) {
         guild.me.roles.remove(red);
         guild.me.roles.add(green);
+        console.log('Ticker is green')
       } else {
         guild.me.roles.remove(green);
         guild.me.roles.add(red);
+        console.log('Ticker is red');
       }
     });
   }, UPDATE_FREQUENCY_MS);
