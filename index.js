@@ -13,14 +13,40 @@ client.once('ready', () => {
 	setInterval(async () => {
 		const res = await responseClient.get();
 		const quote = responseClient.parseMarketPrice(res);
-		var marketState = quote.marketState.toLowerCase() == 'postpost' ? 'post' : quote.marketState.toLowerCase();
+
+		function parseMarketState(m){
+			if (m == 'POSTPOST') {
+				return 'post';
+			} else return m.toLowerCase();
+		}
+		const marketState = parseMarketState(quote.marketState);
 		const price = quote[`${marketState}MarketPrice`];
 		const previousClose = quote.regularMarketPreviousClose;
-		const changeAmount = quote[`${marketState}MarketChange`]?.fmt || '--';
-		const changePercent = quote[`${marketState}MarketChangePercent`]?.fmt || '--';
-		const isGreen = price.raw >= previousClose.raw ? true : false;
+		const changeAmount = quote[`${marketState}MarketChange`] || '--';
+		const changePercent = quote[`${marketState}MarketChangePercent`] || '--';
 
-		const newNickname = `TSLA: \$${price.fmt}`;
+		function decorator(q,m) {
+			if (q[`${m}MarketChangePercent`]?.raw >= 0 && q[`${m}MarketChangePercent`]?.raw < 0.05) {
+				return {
+					arrow: '↗',
+					color: 'green',
+				};
+			} else if (q[`${m}MarketChangePercent`]?.raw > 0.05) {
+				return {
+					arrow: '🚀',
+					color: 'green',
+				};
+			} else {
+				return {
+					arrow: '↘',
+					color: 'red',
+				};
+			}
+		}
+
+		const dec = decorator(quote,marketState);
+
+		const newNickname = `TSLA ${dec.arrow}`;
 
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
@@ -29,14 +55,14 @@ client.once('ready', () => {
 
 			const setNick = await guild.me.setNickname(newNickname);
 
-			client.user.setActivity(`${marketState} \$${changeAmount} (${changePercent}) `, { type: 'WATCHING' });
+			client.user.setActivity(`${price.fmt} (${changePercent.fmt}) `, { type: 'WATCHING' });
 
 			console.log(`Setting nickname to ${setNick}`);
 
 			const greenRole = guild.roles.cache.find(role => role.name == 'tickers-green');
 			const redRole = guild.roles.cache.find(role => role.name == 'tickers-red');
 
-			if (isGreen) {
+			if (dec.color == 'green') {
 				console.log(`Ticker is Green`)
 				guild.me.roles.remove(redRole);
 				guild.me.roles.add(greenRole);
