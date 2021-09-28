@@ -29,7 +29,7 @@ client.once('ready', () => {
 
 			guild.me.setNickname(newNickname);
 
-			client.user.setActivity(`${marketState}market \$${changeAmount} (${changePercent}) `, { type: 'WATCHING' });
+			client.user.setActivity(`${marketState} \$${changeAmount} (${changePercent}) `, { type: 'WATCHING' });
 
 			console.log(`Setting nickname to ${newNickname}`);
 
