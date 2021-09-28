@@ -14,25 +14,15 @@ client.once('ready', () => {
     const res = await responseClient.get();
     const quote = responseClient.parseMarketPrice(res);
     const marketState = quote.marketState.toLowerCase();
-    const price = quote[`${marketState}MarketPrice`];
-    const previousClose = quote.regularMarketPreviousClose;
-
-    const newNickname = `TSLA: \$${price.fmt}`;
-
-    const guildIds = client.guilds.cache.map(guild => guild.id);
-
-    guildIds.forEach(async guildId => {
-      const guild = await client.guilds.fetch(guildId);
-      var marketState = quote.marketState.toLowerCase();
-    if (marketState == 'postpost') {
-      marketState = 'post';
-    }
-
     const price = quote[`${marketState}MarketPrice`] || 0;
     const previousClose = quote.regularMarketPreviousClose || 0;
     const changeAmount = quote[`${marketState}MarketChange`]?.fmt || '--';
     const changePercent = quote[`${marketState}MarketChangePercent`]?.fmt || '--';
     const isGreen = price >= previousClose ? true : false;
+    
+    if (marketState == 'postpost') {
+      marketState = 'post';
+    }
 
     const newNickname = `TSLA: \$${price.fmt}`;
 
