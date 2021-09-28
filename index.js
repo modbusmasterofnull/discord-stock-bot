@@ -37,11 +37,11 @@ client.once('ready', () => {
       const red = guild.roles.cache.find(role => role.name == 'tickers-red');
 
       if (isGreen) {
-        guild.me.roles.remove(red).catch(console.log('error removing red role'));
-        guild.me.roles.add(green).catch(console.log('error adding green role'));
+        guild.me.roles.remove(red);
+        guild.me.roles.add(green);
       } else {
-        guild.me.roles.remove(green).catch(console.log('error removing green role'));
-        guild.me.roles.add(red).catch(console.log('error adding red role'));
+        guild.me.roles.remove(green);
+        guild.me.roles.add(red);
       }
     });
   }, UPDATE_FREQUENCY_MS);
