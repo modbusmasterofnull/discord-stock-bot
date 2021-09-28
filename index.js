@@ -9,7 +9,6 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once('ready', () => {
   const responseClient = new Response(API_URL);
-  var previousPrice = 0;
 
   setInterval(async () => {
     const res = await responseClient.get();
@@ -35,20 +34,18 @@ client.once('ready', () => {
 
       console.log(`Setting nickname to ${newNickname}`);
 
-      const green = guild.roles.cache.find(role => role.name == 'tickers-green');
-      const red = guild.roles.cache.find(role => role.name == 'tickers-red');
+      const greenRole = guild.roles.cache.find(role => role.name == 'tickers-green');
+      const redRole = guild.roles.cache.find(role => role.name == 'tickers-red');
 
       if (isGreen) {
-        guild.me.roles.remove(red);
-        guild.me.roles.add(green);
+        guild.me.roles.remove(redRole);
+        guild.me.roles.add(greenRole);
         console.log('Ticker is green')
       } else {
-        guild.me.roles.remove(green);
-        guild.me.roles.add(red);
+        guild.me.roles.remove(greenRole);
+        guild.me.roles.add(redRole);
         console.log('Ticker is red');
       }
-        
-      previousPrice = price;
     });
     }
   }, UPDATE_FREQUENCY_MS);
