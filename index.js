@@ -53,11 +53,11 @@ client.once('ready', () => {
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			const setNick = await guild.me.setNickname(newNickname);
+			guild.me.setNickname(newNickname);
 
 			client.user.setActivity(`${price.fmt} (${changePercent.fmt}) `, { type: 'WATCHING' });
 
-			console.log(`Setting nickname to ${setNick}`);
+			console.log(`Setting nickname to ${newNickname}`);
 
 			const greenRole = guild.roles.cache.find(role => role.name == 'tickers-green');
 			const redRole = guild.roles.cache.find(role => role.name == 'tickers-red');
