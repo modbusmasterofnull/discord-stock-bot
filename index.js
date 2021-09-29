@@ -12,7 +12,7 @@ client.once('ready', () => {
 	//interval to check price/do discord stuff
 	setInterval(async () => {
 
-		ticker = new TickerGenerator(API_URL);
+		const ticker = new TickerGenerator(API_URL);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {
