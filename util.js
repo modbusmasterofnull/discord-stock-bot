@@ -1,32 +1,23 @@
 function TickerGenerator(quote) {
 	var result = Object.assign({}, quote);
-	result.marketState = () => {
-		return result.marketState == 'POSTPOST' ? 'post' : result.marketState.toLowerCase();
-	}
+	result.marketState = result.marketState == 'POSTPOST' ? 'post' : result.marketState.toLowerCase();
 
-	result.price = () => {
-		return result[`${result.marketState}MarketPrice`]?.fmt;
-	}
+	result.price result[`${result.marketState}MarketPrice`]?.fmt;
 
-	result.change = () => {
-		return result[`${result.marketState}MarketChange`]?.fmt;
-	}
+	result.change result[`${result.marketState}MarketChange`]?.fmt;
 
-	result.changePercent = () => {
-		return result[`${result.marketState}MarketChangePercent`]?.fmt;
-	}
+	result.changePercent = result[`${result.marketState}MarketChangePercent`]?.fmt;
 
 	result.tickerColor = result[`${result.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
-	result.decorator = () => {
-		if (result[`${result.marketState}MarketChangePercent`]?.raw >= 0 && result[`${result.marketState}MarketChangePercent`]?.raw < 0.05) {
-			return '↗';
-		} else if (result[`${result.marketState}MarketChangePercent`]?.raw > 0.05) {
-			return '🚀';
-		} else {
-			return '↘';
-		}
-	}
 
+	if (result[`${result.marketState}MarketChangePercent`]?.raw >= 0 && result[`${result.marketState}MarketChangePercent`]?.raw < 0.05) {
+		result.decorator '↗';
+	} else if (result[`${result.marketState}MarketChangePercent`]?.raw > 0.05) {
+		result.decorator '🚀';
+	} else {
+		result.decorator '↘';
+	}
+	
 	return result;
 }
 
