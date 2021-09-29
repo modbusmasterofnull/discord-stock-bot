@@ -7,8 +7,7 @@ const API_URL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/tsla?
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once('ready', () => {
-	var oldTicker;
-	var ticker;
+	var oldFormatting;
 
 	//interval to check price/do discord stuff
 	setInterval(async () => {
@@ -19,10 +18,12 @@ client.once('ready', () => {
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			if (ticker.decorator != oldTicker?.decorator || ticker.color != oldTicker?.color) {
-				const newNickname = `TSLA ${ticker.decorator}`;
+			const formatting = ticker.parseFormatting(ticker.quote);
+
+			if (formatting.decorator != oldFormatting?.decorator || formatting.color != oldFormatting?.color) {
+				const newNickname = `TSLA ${formatting.decorator}`;
 				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers')) || 0;
-				const newRole = `tickers-${ticker.color}`;
+				const newRole = `tickers-${formatting.color}`;
 
 				//change nickname
 				guild.me.setNickname(newNickname);
@@ -41,7 +42,7 @@ client.once('ready', () => {
 			}
 
 		});
-		oldTicker = Object.assign({}, ticker);
+		oldFormatting = Object.assign({}, formatting);
 	}, UPDATE_FREQUENCY_MS);
 
 	console.log('Bot is ready...');
