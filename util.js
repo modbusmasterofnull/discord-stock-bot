@@ -41,7 +41,7 @@ class TickerGenerator {
 
 		if (q[`${q.marketState}MarketChangePercent`]?.raw >= 0 && result[`${q.marketState}MarketChangePercent`]?.raw < 0.05) {
 			return '↗';
-		} else if (q[`${result.marketState}MarketChangePercent`]?.raw > 0.05) {
+		} else if (q[`${q.marketState}MarketChangePercent`]?.raw > 0.05) {
 			return '🚀';
 		} else {
 			return '↘';
@@ -49,7 +49,7 @@ class TickerGenerator {
 	}
 
 	get color() {
-		return this._quote[`${result.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+		return this._quote[`${q.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
 	}
 
 }
