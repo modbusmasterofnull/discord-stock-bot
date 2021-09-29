@@ -7,11 +7,11 @@ async function getQuote(url) {
 }
 
 class TickerGenerator {
-	constructor(url) {
-		this.url = url;
-		this.quote = getQuote(this.url);
-		console.log('Created Ticker');
-		console.log(this.quote);
+	constructor(quote) {
+		this.quote = quote;
+		this.marketState = () {
+			return this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
+		}
 	}
 
 	get decorator() {
@@ -34,15 +34,9 @@ class TickerGenerator {
 		return this.quote[`${this.marketState}MarketChangePercent`]?.fmt;
 	}
 
-	async refresh(quote) {
+	update(quote) {
 		this.oldQuote = this.quote;
-		this.quote = await getQuote(this.url);
-		//this.marketState = this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
-		if (this.quote.marketState == 'POSTPOST') {
-			this.marketState = 'post';
-		} else {
-			this.marketState = this.quote.marketState.toLowerCase();
-		}
+		this.quote = quote;
 		this.quote.tickerColor = this.quote[`${this.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
 		this.quote.decorator = () => {
 			if (this.quote[`${this.marketState}MarketChangePercent`]?.raw >= 0 && this.quote[`${this.marketState}MarketChangePercent`]?.raw < 0.05) {
@@ -62,4 +56,7 @@ class TickerGenerator {
 	}
 }
 
-export default TickerGenerator;
+module.exports= {
+	TickerGenerator: TickerGenerator,
+	getQuote: getQuote
+}

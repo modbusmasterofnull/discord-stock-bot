@@ -1,16 +1,17 @@
 import { Client, Intents } from 'discord.js';
-import TickerGenerator from "./TickerGenerator.js";
+import TickerGenerator,getQuote from "./util.js";
 
 const TOKEN = process.env.TOKEN;
 const UPDATE_FREQUENCY_MS = process.env.FREQUENCY || 10000;
 const API_URL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/tsla?modules=price";
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-const ticker = new TickerGenerator(API_URL);
+const initQuote = getQuote(API_URL);
+const ticker = new TickerGenerator(initQuote);
 
 client.once('ready', () => {
 	//interval to check price/do discord stuff
 	setInterval(async () => {
-		ticker.refresh();
+		ticker.update(await getQuote(API_URL));
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {
