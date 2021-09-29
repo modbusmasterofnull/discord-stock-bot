@@ -8,7 +8,6 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const ticker = new TickerGenerator(API_URL);
 
 client.once('ready', () => {
-<<<<<<< Updated upstream
   const responseClient = new Response(API_URL);
 
   setInterval(async () => {
