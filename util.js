@@ -9,7 +9,7 @@ async function getQuote(url) {
 class TickerGenerator {
 	constructor(quote) {
 		this.quote = quote;
-		this.marketState = () {
+		this.marketState = () => {
 			return this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
 		}
 	}
