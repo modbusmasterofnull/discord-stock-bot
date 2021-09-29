@@ -29,7 +29,7 @@ client.once('ready', () => {
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			if (ticker.decorator != oldTicker.decorator || ticker.tickerColor != oldTicker.tickerColor) {
+			if (ticker.decorator != oldTicker?.decorator || ticker.tickerColor != oldTicker?.tickerColor) {
 				const newNickname = `TSLA ${ticker.decorator}`;
 				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers'));
 				const newRole = `tickers-${ticker.tickerColor}`;
