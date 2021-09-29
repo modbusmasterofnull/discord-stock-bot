@@ -3,42 +3,42 @@ import fetch from 'node-fetch';
 class TickerGenerator {
 	constructor(url) {
 		this.url = url;
-		console.log(this.quote);
+		this._quote = this.get();
+		console.log(this._quote);
 	}
 
 	async update() {
 		const response = await fetch(this.url);
 		const result = response.json().quoteSummary?.result[0]?.price;
-		this.quote = result;
 		return result;
 	}
 
 	get quote() {
-		return this.quote;
+		return this._quote;
 	}
 
 	set quote(data) {
-		this.quote = data;
+		this._quote = data;
 	}
 
 	get marketState() {
-		return this.quote.marketState.includes('POST') ? 'post' : this.quote.marketState.toLowerCase();
+		return this._quote.marketState.includes('POST') ? 'post' : this._quote.marketState.toLowerCase();
 	}
 
 	get price() {
-		return this.quote[`${this.marketState}MarketPrice`];
+		return this._quote[`${this.marketState}MarketPrice`];
 	}
 
 	get change() {
-		return this.quote[`${this.marketState}MarketChange`];
+		return this._quote[`${this.marketState}MarketChange`];
 	}
 
 	get changePercent() {
-		return this.quote[`${this.marketState}MarketChangePercent`];
+		return this._quote[`${this.marketState}MarketChangePercent`];
 	}
 
 	get decorator() {
-		let q = this.quote;
+		let q = this._quote;
 
 		if (q[`${q.marketState}MarketChangePercent`]?.raw >= 0 && result[`${q.marketState}MarketChangePercent`]?.raw < 0.05) {
 			return '↗';
@@ -50,7 +50,7 @@ class TickerGenerator {
 	}
 
 	get color() {
-		return this.quote[`${result.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+		return this._quote[`${result.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
 	}
 
 }
