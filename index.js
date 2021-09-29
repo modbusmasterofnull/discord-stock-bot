@@ -1,11 +1,5 @@
-import fetch from 'node-fetch';
 import { Client, Intents } from 'discord.js';
 import TickerGenerator from "./util.js";
-
-async function getQuote(url) {
-	const response = await fetch(url);
-	return response.json().data?.quoteSummary?.result[0]?.price;
-}
 
 const TOKEN = process.env.TOKEN;
 const UPDATE_FREQUENCY_MS = process.env.FREQUENCY || 10000;
@@ -18,27 +12,26 @@ client.once('ready', () => {
 
 	//interval to check price/do discord stuff
 	setInterval(async () => {
-		if (oldTicker) {
-			oldTicker = Object.assign({}, ticker);
-		}
 
-		ticker = TickerGenerator(await getQuote(API_URL));
+		ticker = new TickerGenerator(API_URL);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			if (ticker.decorator != oldTicker?.decorator || ticker.tickerColor != oldTicker?.tickerColor) {
+			if (ticker.decorator != oldTicker?.decorator || ticker.color != oldTicker?.color) {
 				const newNickname = `TSLA ${ticker.decorator}`;
-				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers'));
-				const newRole = `tickers-${ticker.tickerColor}`;
+				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers')) || 0;
+				const newRole = `tickers-${ticker.color}`;
 
 				//change nickname
 				guild.me.setNickname(newNickname);
 				console.log(`Setting nickname to ${newNickname}`);
 
 				//change roles
-				guild.me.roles.remove(currentRole);
+				if (currentRole) {
+					guild.me.roles.remove(currentRole);
+				}
 				guild.me.roles.add(newRole);
 			}
 
@@ -48,6 +41,7 @@ client.once('ready', () => {
 			}
 
 		});
+		oldTicker = Object.assign({}, ticker);
 	}, UPDATE_FREQUENCY_MS);
 
 	console.log('Bot is ready...');

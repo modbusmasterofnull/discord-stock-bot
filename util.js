@@ -1,29 +1,53 @@
-function TickerGenerator(quote) {
-	var result = Object.assign({}, quote);
-	console.log(result.marketState);
-	if (result.marketState == 'POSTPOST') {
-		result.marketState = 'post';
-	} else {
-		result.marketState = result.marketState.toLowerCase();
+import fetch from 'node-fetch';
+
+class TickerGenerator {
+	constructor(url) {
+		this.url = url;
+		this.quote = this.get();
+		console.log(this.quote);
 	}
 
-	result.price = result[`${result.marketState}MarketPrice`]?.fmt;
-
-	result.change = result[`${result.marketState}MarketChange`]?.fmt;
-
-	result.changePercent = result[`${result.marketState}MarketChangePercent`]?.fmt;
-
-	result.tickerColor = result[`${result.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
-
-	if (result[`${result.marketState}MarketChangePercent`]?.raw >= 0 && result[`${result.marketState}MarketChangePercent`]?.raw < 0.05) {
-		result.decorator = '↗';
-	} else if (result[`${result.marketState}MarketChangePercent`]?.raw > 0.05) {
-		result.decorator = '🚀';
-	} else {
-		result.decorator = '↘';
+	async get() {
+		const response = await fetch(this.url);
+		return response.json().quoteSummary?.result[0]?.price;
 	}
 
-	return result;
+	get quote() {
+		return this.quote;
+	}
+
+	get marketState() {
+		return this.quote.marketState.includes('POST') ? 'post' : this.quote.marketState.toLowerCase();
+	}
+
+	get price() {
+		return this.quote[`${this.marketState}MarketPrice`];
+	}
+
+	get change() {
+		return this.quote[`${this.marketState}MarketChange`];
+	}
+
+	get changePercent() {
+		return this.quote[`${this.marketState}MarketChangePercent`];
+	}
+
+	get decorator() {
+		let q = this.quote;
+
+		if (q[`${q.marketState}MarketChangePercent`]?.raw >= 0 && result[`${q.marketState}MarketChangePercent`]?.raw < 0.05) {
+			return '↗';
+		} else if (q[`${result.marketState}MarketChangePercent`]?.raw > 0.05) {
+			return '🚀';
+		} else {
+			return '↘';
+		}
+	}
+
+	get color() {
+		return this.quote[`${result.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+	}
+
 }
 
 export default TickerGenerator;
