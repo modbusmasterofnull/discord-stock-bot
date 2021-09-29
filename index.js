@@ -4,7 +4,6 @@ import TickerGenerator from "./util.js";
 
 async function getQuote(url) {
 	const response = await fetch(url);
-	console.log(response.json());
 	return response.json().data?.quoteSummary?.result[0]?.price;
 }
 
