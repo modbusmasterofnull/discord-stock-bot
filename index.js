@@ -18,7 +18,8 @@ const ticker = new TickerGenerator(initQuote);
 client.once('ready', () => {
 	//interval to check price/do discord stuff
 	setInterval(async () => {
-		ticker.update(await getQuote(API_URL));
+		const newQuote = await getQuote(API_URL);
+		ticker.update(newQuote);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {
