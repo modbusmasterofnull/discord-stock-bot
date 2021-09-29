@@ -33,7 +33,7 @@ class TickerGenerator {
 
 	async refresh() {
 		this.oldQuote = this.quote;
-		this.quote = this.getQuote(this.url);
+		this.quote = await this.getQuote(this.url);
 		//this.marketState = this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
 		if (this.quote.marketState == 'POSTPOST') {
 			this.marketState = 'post';
