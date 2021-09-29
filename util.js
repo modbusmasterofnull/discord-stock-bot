@@ -3,8 +3,6 @@ import fetch from 'node-fetch';
 class TickerGenerator {
 	constructor(url) {
 		this.url = url;
-		this._quote = this.update();
-		console.log(this._quote);
 	}
 
 	async update() {
