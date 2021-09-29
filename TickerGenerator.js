@@ -14,6 +14,7 @@ class TickerGenerator {
 	async getQuote(url) {
 		const response = await fetch(url);
 		console.log('Got Quote')
+		console.log(response.json().data?.quoteSummary?.result[0]?.price);
 		return response.json().data?.quoteSummary?.result[0]?.price;
 	}
 
