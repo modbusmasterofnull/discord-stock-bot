@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 class TickerGenerator {
 	constructor(quote) {
 		this.quote = quote;

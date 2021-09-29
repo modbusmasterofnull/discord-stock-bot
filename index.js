@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import { Client, Intents } from 'discord.js';
 import TickerGenerator from "./util.js";
 
