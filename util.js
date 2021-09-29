@@ -1,6 +1,10 @@
 function TickerGenerator(quote) {
 	var result = Object.assign({}, quote);
-	result.marketState = result.marketState == 'POSTPOST' ? 'post' : result.marketState.toLowerCase();
+	if (result.marketState == 'POSTPOST') {
+		result.marketState = 'post';
+	} else {
+		result.marketState = result.marketState.toLowerCase();
+	}
 
 	result.price = result[`${result.marketState}MarketPrice`]?.fmt;
 
