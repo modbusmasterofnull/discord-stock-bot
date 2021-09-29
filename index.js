@@ -28,7 +28,7 @@ client.once('ready', () => {
   }, UPDATE_FREQUENCY_MS);
 
   console.log('Bot is ready...');
-=======
+
 	//interval to check price/do discord stuff
 	setInterval(async () => {
 		ticker.refresh();
@@ -60,7 +60,6 @@ client.once('ready', () => {
 	}, UPDATE_FREQUENCY_MS);
 
 console.log('Bot is ready...');
->>>>>>> Stashed changes
 });
 
 client.login(TOKEN);
