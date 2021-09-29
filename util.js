@@ -5,28 +5,19 @@ function TickerGenerator(quote) {
 		return result.quote.marketState == 'POSTPOST' ? 'post' : result.quote.marketState.toLowerCase();
 	}
 
-
-	get decorator() {
-		return result.quote.decorator;
-	}
-
-	get tickerColor() {
-		return result.quote.tickerColor;
-	}
-
-	get price() {
+	result.price = () => {
 		return result.quote[`${result.marketState}MarketPrice`]?.fmt;
 	}
 
-	get change() {
+	result.change = () => {
 		return result.quote[`${result.marketState}MarketChange`]?.fmt;
 	}
 
-	get changePercent() {
+	result.changePercent = () => {
 		return result.quote[`${result.marketState}MarketChangePercent`]?.fmt;
 	}
 
-	update(quote) {
+	result.update = (quote) => {
 		result.oldQuote = result.quote;
 		result.quote = quote;
 		result.quote.tickerColor = result.quote[`${result.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
@@ -46,6 +37,7 @@ function TickerGenerator(quote) {
 
 	    return result.quote;
 	}
+	return result;
 }
 
 export default TickerGenerator;
