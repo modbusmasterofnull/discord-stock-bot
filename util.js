@@ -1,11 +1,5 @@
 import fetch from 'node-fetch';
 
-async function getQuote(url) {
-	const response = await fetch(url);
-	console.log(response.json());
-	return response.json().data?.quoteSummary?.result[0]?.price;
-}
-
 class TickerGenerator {
 	constructor(quote) {
 		this.quote = quote;
@@ -56,5 +50,4 @@ class TickerGenerator {
 	}
 }
 
-module.exports.TickerGenerator = TickerGenerator;
-module.exports.getQuote = getQuote;
+export default TickerGenerator;

@@ -1,5 +1,11 @@
 import { Client, Intents } from 'discord.js';
-import {TickerGenerator, getQuote} from "./util.js";
+import TickerGenerator from "./util.js";
+
+async function getQuote(url) {
+	const response = await fetch(url);
+	console.log(response.json());
+	return response.json().data?.quoteSummary?.result[0]?.price;
+}
 
 const TOKEN = process.env.TOKEN;
 const UPDATE_FREQUENCY_MS = process.env.FREQUENCY || 10000;
