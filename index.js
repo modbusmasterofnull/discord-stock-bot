@@ -8,28 +8,6 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const ticker = new TickerGenerator(API_URL);
 
 client.once('ready', () => {
-<<<<<<< Updated upstream
-  const responseClient = new Response(API_URL);
-
-  setInterval(async () => {
-    const res = await responseClient.get();
-    const price = responseClient.parseMarketPrice(res);
-
-    const newNickname = `TSLA: \$${price.toString()}`;
-
-    const guildIds = client.guilds.cache.map(guild => guild.id);
-
-    guildIds.forEach(async guildId => {
-      const guild = await client.guilds.fetch(guildId);
-
-      guild.me.setNickname(newNickname);
-
-      console.log(`Setting nickname to ${newNickname}`);
-    });
-  }, UPDATE_FREQUENCY_MS);
-
-  console.log('Bot is ready...');
-=======
 	//interval to check price/do discord stuff
 	setInterval(async () => {
 		ticker.refresh();
@@ -61,7 +39,6 @@ client.once('ready', () => {
 	}, UPDATE_FREQUENCY_MS);
 
 console.log('Bot is ready...');
->>>>>>> Stashed changes
 });
 
 client.login(TOKEN);
