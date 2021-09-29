@@ -22,7 +22,7 @@ client.once('ready', () => {
 			oldTicker = Object.assign({}, ticker);
 		}
 
-		ticker = TickerGenerator(getQuote(API_URL));
+		ticker = TickerGenerator(await getQuote(API_URL));
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {
