@@ -36,6 +36,7 @@ class TickerGenerator {
 	}
 
 	parseFormatting(q) {
+		console.log('parse formatting function');
 		console.log(q);
 		let formatting = {};
 
