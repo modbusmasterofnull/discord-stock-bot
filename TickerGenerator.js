@@ -1,21 +1,16 @@
 import fetch from 'node-fetch';
 
+async getQuote(url) {
+	const response = await fetch(url);
+	return response.json().data?.quoteSummary?.result[0]?.price;
+}
+
 class TickerGenerator {
 	constructor(url) {
 		this.url = url;
-		this.quote = async () => {
-			const result = await this.getQuote(url);
-			return result;
-		};
+		this.quote = getQuote(this.url);
 		console.log('Created Ticker');
 		console.log(this.quote);
-	}
-
-	async getQuote(url) {
-		const response = await fetch(url);
-		console.log('Got Quote')
-		console.log(response.json().data?.quoteSummary?.result[0]?.price);
-		return response.json().data?.quoteSummary?.result[0]?.price;
 	}
 
 	get decorator() {
@@ -38,9 +33,9 @@ class TickerGenerator {
 		return this.quote[`${this.marketState}MarketChangePercent`]?.fmt;
 	}
 
-	async refresh() {
+	async refresh(quote) {
 		this.oldQuote = this.quote;
-		this.quote = await this.getQuote(this.url);
+		this.quote = await getQuote(this.url);
 		//this.marketState = this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
 		if (this.quote.marketState == 'POSTPOST') {
 			this.marketState = 'post';
