@@ -3,14 +3,13 @@ import fetch from 'node-fetch';
 class TickerGenerator {
 	constructor(url) {
 		this.url = url;
-		this._quote = this.get();
+		this._quote = this.update();
 		console.log(this._quote);
 	}
 
 	async update() {
 		const response = await fetch(this.url);
-		const result = response.json().quoteSummary?.result[0]?.price;
-		return result;
+		return response.json().quoteSummary?.result[0]?.price;
 	}
 
 	get quote() {
