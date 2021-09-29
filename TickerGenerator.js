@@ -14,15 +14,15 @@ class TickerGenerator {
 	}
 
 	get price() {
-		return this.quote[`${this.marketState}`MarketPrice]?.fmt;
+		return this.quote[`${this.marketState}MarketPrice`]?.fmt;
 	}
 
 	get change() {
-		return this.quote[`${this.marketState}`MarketChange]?.fmt;
+		return this.quote[`${this.marketState}MarketChange`]?.fmt;
 	}
 
 	get changePercent() {
-		return this.quote[`${this.marketState}`MarketChangePercent]?.fmt;
+		return this.quote[`${this.marketState}MarketChangePercent`]?.fmt;
 	}
 
 	async refresh() {
