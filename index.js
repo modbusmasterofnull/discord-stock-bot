@@ -15,7 +15,7 @@ client.once('ready', () => {
 		const ticker = new TickerGenerator(API_URL);
 		(async () => {
 			await ticker.update();
-		})();
+		}());
 		const formatting = ticker.parseFormatting(ticker.quote);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
