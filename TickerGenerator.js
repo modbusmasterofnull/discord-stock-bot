@@ -1,8 +1,14 @@
 import fetch from 'node-fetch';
 
+async function firstPass(url) {
+	const response = await fetch(url);
+	return response.json().data?.quoteSummary?.result[0]?.price;
+}
+
 class TickerGenerator {
 	constructor(url) {
 		this.url = url;
+		this.quote = firstPass(this.url);
 	}
 
 	get decorator() {
