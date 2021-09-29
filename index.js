@@ -13,12 +13,11 @@ client.once('ready', () => {
 	setInterval(async () => {
 
 		const ticker = new TickerGenerator(API_URL);
+		const formatting = ticker.parseFormatting(ticker.quote);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
-
-			const formatting = ticker.parseFormatting(ticker.quote);
 
 			if (formatting.decorator != oldFormatting?.decorator || formatting.color != oldFormatting?.color) {
 				const newNickname = `TSLA ${formatting.decorator}`;
