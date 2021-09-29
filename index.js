@@ -12,14 +12,12 @@ const TOKEN = process.env.TOKEN;
 const UPDATE_FREQUENCY_MS = process.env.FREQUENCY || 10000;
 const API_URL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/tsla?modules=price";
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-const initQuote = getQuote(API_URL);
-const ticker = new TickerGenerator(initQuote);
 
 client.once('ready', () => {
 	//interval to check price/do discord stuff
 	setInterval(async () => {
-		const newQuote = await getQuote(API_URL);
-		ticker.update(newQuote);
+		const quote = getQuote(API_URL);
+		const ticker = TickerGenerator(quote);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {

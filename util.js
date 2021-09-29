@@ -1,50 +1,50 @@
-class TickerGenerator {
-	constructor(quote) {
-		this.quote = quote;
-		this.marketState = () => {
-			return this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
-		}
+function TickerGenerator(quote) {
+	var result = {};
+	result.quote = quote;
+	result.marketState = () => {
+		return result.quote.marketState == 'POSTPOST' ? 'post' : result.quote.marketState.toLowerCase();
 	}
 
+
 	get decorator() {
-		return this.quote.decorator;
+		return result.quote.decorator;
 	}
 
 	get tickerColor() {
-		return this.quote.tickerColor;
+		return result.quote.tickerColor;
 	}
 
 	get price() {
-		return this.quote[`${this.marketState}MarketPrice`]?.fmt;
+		return result.quote[`${result.marketState}MarketPrice`]?.fmt;
 	}
 
 	get change() {
-		return this.quote[`${this.marketState}MarketChange`]?.fmt;
+		return result.quote[`${result.marketState}MarketChange`]?.fmt;
 	}
 
 	get changePercent() {
-		return this.quote[`${this.marketState}MarketChangePercent`]?.fmt;
+		return result.quote[`${result.marketState}MarketChangePercent`]?.fmt;
 	}
 
 	update(quote) {
-		this.oldQuote = this.quote;
-		this.quote = quote;
-		this.quote.tickerColor = this.quote[`${this.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
-		this.quote.decorator = () => {
-			if (this.quote[`${this.marketState}MarketChangePercent`]?.raw >= 0 && this.quote[`${this.marketState}MarketChangePercent`]?.raw < 0.05) {
+		result.oldQuote = result.quote;
+		result.quote = quote;
+		result.quote.tickerColor = result.quote[`${result.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+		result.quote.decorator = () => {
+			if (result.quote[`${result.marketState}MarketChangePercent`]?.raw >= 0 && result.quote[`${result.marketState}MarketChangePercent`]?.raw < 0.05) {
 				return '↗';
-			} else if (this.quote[`${this.marketState}MarketChangePercent`]?.raw > 0.05) {
+			} else if (result.quote[`${result.marketState}MarketChangePercent`]?.raw > 0.05) {
 				return '🚀';
 			} else {
 				return '↘';
 			}
 		}
 
-		if (this.quote.tickerColor != this.oldQuote.tickerColor || this.quote.decorator != this.oldQuote.decorator) {
-			this.updateNickname = true;
-		} else this.updateNickname = false;
+		if (result.quote.tickerColor != result.oldQuote.tickerColor || result.quote.decorator != result.oldQuote.decorator) {
+			result.updateNickname = true;
+		} else result.updateNickname = false;
 
-	    return this.quote;
+	    return result.quote;
 	}
 }
 
