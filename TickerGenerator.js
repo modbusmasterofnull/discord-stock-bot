@@ -47,5 +47,6 @@ class TickerGenerator {
 
 	    return this.quote;
 	}
+}
 
 export default TickerGenerator;
