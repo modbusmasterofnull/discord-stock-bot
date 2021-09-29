@@ -36,20 +36,20 @@ class TickerGenerator {
 		return this._quote[`${this.marketState}MarketChangePercent`];
 	}
 
-	get decorator() {
-		let q = this._quote;
+	parseFormatting(q) {
+		let formatting = {};
 
 		if (q[`${q.marketState}MarketChangePercent`]?.raw >= 0 && result[`${q.marketState}MarketChangePercent`]?.raw < 0.05) {
-			return '↗';
+			formatting.decorator = '↗';
 		} else if (q[`${q.marketState}MarketChangePercent`]?.raw > 0.05) {
-			return '🚀';
+			formatting.decorator = '🚀';
 		} else {
-			return '↘';
+			formatting.decorator = '↘';
 		}
-	}
 
-	get color() {
-		return this._quote[`${this._quote.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+		formatting.color = q[`${this._quote.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+
+		return formatting;
 	}
 
 }
