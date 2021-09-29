@@ -35,7 +35,12 @@ class TickerGenerator {
 	    const response = await fetch(this.url);
 		this.oldQuote = this.quote;
 		this.quote = response.json().data?.quoteSummary?.result[0]?.price;
-		this.marketState = this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
+		//this.marketState = this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
+		if (this.quote.marketState == 'POSTPOST') {
+			this.marketState = 'post';
+		} else {
+			this.marketState = this.quote.marketState.toLowerCase();
+		}
 		this.quote.tickerColor = this.quote[`${this.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
 		this.quote.decorator = () => {
 			if (this.quote[`${this.marketState}MarketChangePercent`]?.raw >= 0 && this.quote[`${this.marketState}MarketChangePercent`]?.raw < 0.05) {
