@@ -1,5 +1,6 @@
 function TickerGenerator(quote) {
 	var result = Object.assign({}, quote);
+	console.log(result.marketState);
 	if (result.marketState == 'POSTPOST') {
 		result.marketState = 'post';
 	} else {
