@@ -16,6 +16,10 @@ class TickerGenerator {
 		return this.quote;
 	}
 
+	set quote(data) {
+		this.quote = data;
+	}
+
 	get marketState() {
 		return this.quote.marketState.includes('POST') ? 'post' : this.quote.marketState.toLowerCase();
 	}
