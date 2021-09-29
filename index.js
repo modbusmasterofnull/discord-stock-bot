@@ -14,16 +14,22 @@ const API_URL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/tsla?
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once('ready', () => {
+	var oldTicker;
+	var ticker;
+
 	//interval to check price/do discord stuff
 	setInterval(async () => {
-		const quote = getQuote(API_URL);
-		const ticker = TickerGenerator(quote);
+		if (oldTicker) {
+			oldTicker = Object.assign({}, ticker);
+		}
+
+		ticker = TickerGenerator(getQuote(API_URL));
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			if (ticker.updateNickname) {
+			if (ticker.decorator != oldTicker.decorator || ticker.tickerColor != oldTicker.tickerColor) {
 				const newNickname = `TSLA ${ticker.decorator}`;
 				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers'));
 				const newRole = `tickers-${ticker.tickerColor}`;
@@ -38,14 +44,14 @@ client.once('ready', () => {
 			}
 
 			//update price into activity if market is open at all
-			if (ticker.quote.marketState != 'POSTPOST') {
+			if (ticker.marketState != 'POSTPOST') {
 				client.user.setActivity(`${ticker.price} (${ticker.changePercent}) `, { type: 'WATCHING' });
 			}
 
 		});
 	}, UPDATE_FREQUENCY_MS);
 
-console.log('Bot is ready...');
+	console.log('Bot is ready...');
 });
 
 client.login(TOKEN);
