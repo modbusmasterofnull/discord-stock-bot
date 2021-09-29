@@ -56,7 +56,5 @@ class TickerGenerator {
 	}
 }
 
-module.exports= {
-	TickerGenerator: TickerGenerator,
-	getQuote: getQuote
-}
+exports.TickerGenerator = TickerGenerator;
+exports.getQuote = getQuote;
