@@ -36,6 +36,7 @@ class TickerGenerator {
 	}
 
 	parseFormatting(q) {
+		console.log(q);
 		let formatting = {};
 
 		if (q[`${q.marketState}MarketChangePercent`]?.raw >= 0 && result[`${q.marketState}MarketChangePercent`]?.raw < 0.05) {
