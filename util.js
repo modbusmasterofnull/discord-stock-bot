@@ -49,7 +49,7 @@ class TickerGenerator {
 	}
 
 	get color() {
-		return this._quote[`${q.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+		return this._quote[`${this._quote.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
 	}
 
 }
