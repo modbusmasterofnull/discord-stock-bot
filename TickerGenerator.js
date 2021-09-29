@@ -1,14 +1,14 @@
 import fetch from 'node-fetch';
 
-async function firstPass(url) {
-	const response = await fetch(url);
-	return response.json().data?.quoteSummary?.result[0]?.price;
-}
-
 class TickerGenerator {
 	constructor(url) {
 		this.url = url;
-		this.quote = firstPass(this.url);
+		this.quote = this.getQuote(url);
+	}
+
+	async getQuote(url) {
+		const response = await fetch(url);
+		return response.json().data?.quoteSummary?.result[0]?.price;
 	}
 
 	get decorator() {
@@ -32,9 +32,8 @@ class TickerGenerator {
 	}
 
 	async refresh() {
-	    const response = await fetch(this.url);
 		this.oldQuote = this.quote;
-		this.quote = response.json().data?.quoteSummary?.result[0]?.price;
+		this.quote = this.getQuote(this.url);
 		//this.marketState = this.quote.marketState == 'POSTPOST' ? 'post' : this.quote.marketState.toLowerCase();
 		if (this.quote.marketState == 'POSTPOST') {
 			this.marketState = 'post';
