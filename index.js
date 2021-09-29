@@ -1,5 +1,5 @@
 import { Client, Intents } from 'discord.js';
-import TickerGenerator,getQuote from "./util.js";
+import {TickerGenerator, getQuote} from "./util.js";
 
 const TOKEN = process.env.TOKEN;
 const UPDATE_FREQUENCY_MS = process.env.FREQUENCY || 10000;
