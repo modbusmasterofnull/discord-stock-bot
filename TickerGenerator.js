@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-async getQuote(url) {
+async function getQuote(url) {
 	const response = await fetch(url);
 	return response.json().data?.quoteSummary?.result[0]?.price;
 }
