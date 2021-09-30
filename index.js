@@ -22,8 +22,8 @@ client.once('ready', () => {
 			const guild = await client.guilds.fetch(guildId);
 			const me = await client.user.id;
 			const newNickname = `TSLA ${ticker.formatting.decorator} \$${ticker.price.fmt}`;
-			console.log(newNickname);
-			console.log(`\$${ticker.change.fmt} (${ticker.changePercent.fmt})`)
+			//console.log(newNickname);
+			//console.log(`\$${ticker.change.fmt} (${ticker.changePercent.fmt})`)
 
 			if (ticker.formatting.decorator !== oldFormatting?.decorator || ticker.formatting.color !== oldFormatting?.color || firstRun) {
 				//console.log('formatting changed');
