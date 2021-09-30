@@ -8,7 +8,7 @@ class TickerGenerator {
 	async update() {
 		const response = await fetch(this.url);
 		const data = await response.json()
-		return result;
+		return data;
 	}
 
 	parseMarketPrice(data) {
