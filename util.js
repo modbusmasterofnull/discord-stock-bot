@@ -48,7 +48,7 @@ class TickerGenerator {
 	}
 
 	toString() {
-		return JSON.stringify(this,null,2);
+		return `TSLA ${this.formatting.decorator} (${this.changePercent}))`;
 	}
 
 }
