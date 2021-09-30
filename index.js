@@ -21,6 +21,7 @@ client.once('ready', () => {
 		console.log(formatting);
 		console.log(oldFormatting);
 		console.log(ticker.toString());
+		console.lot(ticker.quote.marketState);
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
