@@ -6,10 +6,11 @@ class TickerGenerator {
 	}
 
 	async update() {
-		const response = await fetch(this.url).then(
+		const response = await fetch(this.url).then(() => {
 			const quote = await response.json().quoteSummary?.result[0]?.price;
-		);
-		return quote;
+		}).then(() => {
+			return quote;
+		});
 	}
 
 	get quote() {
