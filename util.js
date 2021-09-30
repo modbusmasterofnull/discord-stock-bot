@@ -5,18 +5,14 @@ class TickerGenerator {
 		this.url = url;
 	}
 
-	async update() {
+	async get() {
 		const response = await fetch(this.url);
-		const data = await response.json().then(result => {
-			const final = result.quoteSummary?.result[0]?.price;
-			return final;
-		});
-		//return data;
+		return response.json();
 	}
 
-	parseMarketPrice(data) {
-		const result = data?.quoteSummary?.result[0]?.price;
-		return result;
+	updateTicker(data) {
+		this.quote =  data?.quoteSummary?.result[0]?.price;
+		return true;
 	}
 
 	get marketState() {
