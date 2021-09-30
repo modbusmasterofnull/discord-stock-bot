@@ -21,7 +21,7 @@ client.once('ready', () => {
 		console.log('new formatting: '+ticker.formatting);
 		console.log('old formatting: '+oldFormatting);
 		console.log(ticker.toString());
-		console.log('market state: 'ticker.quote.marketState);
+		console.log('market state: '+ticker.quote.marketState);
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
