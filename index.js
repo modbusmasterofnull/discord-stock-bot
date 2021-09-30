@@ -36,7 +36,7 @@ client.once('ready', () => {
 				if (currentRole) {
 					await guild.me.roles.remove(currentRole).then(result => console.log('removed role: '+result));
 				}
-				await guild.me.roles.add(newRole).theb(result => console.log('added role: '+result));
+				await guild.me.roles.add(newRole).then(result => console.log('added role: '+result));
 
 				//after first run, is false
 				if (firstRun) {
