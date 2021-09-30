@@ -22,6 +22,8 @@ client.once('ready', () => {
 			const guild = await client.guilds.fetch(guildId);
 			const me = await client.user.id;
 			const newNickname = `TSLA ${ticker.formatting.decorator} \$${ticker.price.fmt}`;
+			console.log(newNickname);
+			console.log(`\$${ticker.change.fmt} (${ticker.changePercent.fmt})`)
 
 			if (ticker.formatting.decorator !== oldFormatting?.decorator || ticker.formatting.color !== oldFormatting?.color || firstRun) {
 				//console.log('formatting changed');
@@ -45,7 +47,6 @@ client.once('ready', () => {
 			if (ticker.quote.marketState != 'POSTPOST') {
 				//update nick
 				await guild.members.edit(me,{nick:newNickname}).then(result => console.log('Changed nick: '+result));
-				console.log(ticker.change.fmt)
 				client.user.setActivity(`\$${ticker.change.fmt} (${ticker.changePercent.fmt})`)
 			}
 
