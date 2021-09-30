@@ -18,15 +18,15 @@ client.once('ready', () => {
 		ticker.updateTicker(quote);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
-		console.log(ticker.formatting);
-		console.log(oldFormatting);
+		console.log('new formatting: '+ticker.formatting);
+		console.log('old formatting: '+oldFormatting);
 		console.log(ticker.toString());
-		console.log(ticker.quote.marketState);
+		console.log('market state: 'ticker.quote.marketState);
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			if (ticker.formatting.decorator != oldFormatting?.decorator || ticker.formatting.color != oldFormatting?.color || firstRun) {
+			if (ticker.formatting.decorator !== oldFormatting?.decorator || ticker.formatting.color !== oldFormatting?.color || firstRun) {
 				console.log('formatting changed');
 				const newNickname = `TSLA ${ticker.formatting.decorator}`;
 				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers'));
