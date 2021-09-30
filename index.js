@@ -55,7 +55,7 @@ client.once('ready', () => {
 	console.log('Bot is ready...');
 });
 
-client.on('message', msg => {
+client.on('messageCreate', msg => {
 	console.log(msg);
 });
 
