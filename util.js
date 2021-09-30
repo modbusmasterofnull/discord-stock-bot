@@ -34,15 +34,15 @@ class TickerGenerator {
 	get formatting() {
 		let formatting = {};
 
-		if (this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw >= 0 && this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw < 0.05) {
+		if (this.quote[`${this.marketState}MarketChangePercent`]?.raw >= 0 && this.quote[`${this.marketState}MarketChangePercent`]?.raw < 0.05) {
 			formatting.decorator = '↗';
-		} else if (this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw > 0.05) {
+		} else if (this.quote[`${this.marketState}MarketChangePercent`]?.raw > 0.05) {
 			formatting.decorator = '🚀';
 		} else {
 			formatting.decorator = '↘';
 		}
 
-		formatting.color = this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+		formatting.color = this.quote[`${this.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
 
 		return formatting;
 	}
