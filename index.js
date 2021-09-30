@@ -31,7 +31,7 @@ client.once('ready', () => {
 
 				//change nickname
 				//await guild.me.setNickname(newNickname).then(() => console.log('changing nick'));
-				//await me.edit({nick:newNickname}).then(result => console.log('Changed nick: '+result));
+				await guild.members.edit(me,{nick:newNickname}).then(result => console.log('Changed nick: '+result));
 				//console.log(`Setting nickname to ${newNickname}`);
 
 				//change roles
