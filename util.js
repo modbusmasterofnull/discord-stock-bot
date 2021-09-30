@@ -7,9 +7,8 @@ class TickerGenerator {
 
 	async update() {
 		const response = await fetch(this.url);
-		const dup = Object.assign({}, response);
-		console.log(dup.json());
-		return response.json();
+		console.log(response.json());
+		return;
 	}
 
 	parseMarketPrice(data) {
