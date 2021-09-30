@@ -15,9 +15,12 @@ client.once('ready', () => {
 		const ticker = new TickerGenerator(API_URL);
 		const quote = await ticker.get();
 		ticker.updateTicker(quote);
-		console.log(ticker.toString());
 		const formatting = ticker.formatting;
 		const guildIds = client.guilds.cache.map(guild => guild.id);
+
+		console.log(formatting);
+		console.log(oldFormatting);
+		console.log(ticker.toString());
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);

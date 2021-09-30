@@ -35,8 +35,7 @@ class TickerGenerator {
 		let formatting = {};
 
 		if (this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw >= 0 && this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw < 0.05) {
-			formatting.decorator = '\U2197\n';
-			//'↗';
+			formatting.decorator = '↗';
 		} else if (this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw > 0.05) {
 			formatting.decorator = '🚀';
 		} else {
