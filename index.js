@@ -1,80 +1,59 @@
 import { Client, Intents } from 'discord.js';
-import Response from "./Response.js";
+import TickerGenerator from "./util.js";
 
 const TOKEN = process.env.TOKEN;
 const UPDATE_FREQUENCY_MS = process.env.FREQUENCY || 10000;
 const API_URL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/tsla?modules=price";
-
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once('ready', () => {
-	const responseClient = new Response(API_URL);
+	var oldFormatting;
+	var firstRun = true;
 
+	//interval to check price/do discord stuff
 	setInterval(async () => {
-		const res = await responseClient.get();
-		const quote = responseClient.parseMarketPrice(res);
 
-		function parseMarketState(m){
-			if (m == 'POSTPOST') {
-				return 'post';
-			} else return m.toLowerCase();
-		}
-		const marketState = parseMarketState(quote.marketState);
-		const price = quote[`${marketState}MarketPrice`];
-		const previousClose = quote.regularMarketPreviousClose;
-		const changeAmount = quote[`${marketState}MarketChange`] || '--';
-		const changePercent = quote[`${marketState}MarketChangePercent`] || '--';
-
-		function decorator(q,m) {
-			if (q[`${m}MarketChangePercent`]?.raw >= 0 && q[`${m}MarketChangePercent`]?.raw < 0.05) {
-				return {
-					arrow: '↗',
-					color: 'green',
-				};
-			} else if (q[`${m}MarketChangePercent`]?.raw > 0.05) {
-				return {
-					arrow: '🚀',
-					color: 'green',
-				};
-			} else {
-				return {
-					arrow: '↘',
-					color: 'red',
-				};
-			}
-		}
-
-		const dec = decorator(quote,marketState);
-
-		const newNickname = `TSLA ${dec.arrow}`;
-
+		const ticker = new TickerGenerator(API_URL);
+		const quote = await ticker.get();
+		ticker.updateTicker(quote);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			guild.me.setNickname(newNickname);
+			if (ticker.formatting.decorator !== oldFormatting?.decorator || ticker.formatting.color !== oldFormatting?.color || firstRun) {
+				console.log('formatting changed');
+				const newNickname = `TSLA ${ticker.formatting.decorator}`;
+				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers'));
+				console.log('current role: ' + currentRole);
+				const newRole = guild.roles.cache.find(role => role.name == `tickers-${ticker.formatting.color}`);
 
-			client.user.setActivity(`${price.fmt} (${changePercent.fmt}) `, { type: 'WATCHING' });
+				//change nickname
+				await guild.me.setNickname(newNickname).then(() => console.log('changing nick'));
+				console.log(`Setting nickname to ${newNickname}`);
 
-			console.log(`Setting nickname to ${newNickname}`);
+				//change roles
+				if (currentRole) {
+					await guild.me.roles.remove(currentRole).then(result => console.log('removed role: '+result));
+				}
+				await guild.me.roles.add(newRole).then(result => console.log('added role: '+result));
 
-			const greenRole = guild.roles.cache.find(role => role.name == 'tickers-green');
-			const redRole = guild.roles.cache.find(role => role.name == 'tickers-red');
-
-			if (dec.color == 'green') {
-				console.log(`Ticker is Green`)
-				guild.me.roles.remove(redRole);
-				guild.me.roles.add(greenRole);
-			} else {
-				console.log(`Ticker is Red`)
-				guild.me.roles.remove(greenRole);
-				guild.me.roles.add(redRole);
+				//after first run, is false
+				if (firstRun) {
+					firstRun = false;
+				}
 			}
+
+			//update price into activity if market is open at all
+			if (ticker.quote.marketState != 'POSTPOST') {
+				await client.user.setActivity(`${ticker.price.fmt} (${ticker.changePercent.fmt}) `, { type: 'WATCHING' })
+			}
+
 		});
+		oldFormatting = Object.assign({}, ticker.formatting);
 	}, UPDATE_FREQUENCY_MS);
 
-console.log('Bot is ready...');
+	console.log('Bot is ready...');
 });
 
 client.login(TOKEN);
