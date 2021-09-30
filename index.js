@@ -44,9 +44,9 @@ client.once('ready', () => {
 
 			//update price into activity if market is open at all
 			if (ticker.quote.marketState != 'POSTPOST') {
-				console.log(ticker.price);
-				console.log(ticker.changePercent);
-				client.user.setActivity(`${ticker.price} (${ticker.changePercent}) `, { type: 'WATCHING' });
+				console.log(ticker.price.fmt);
+				console.log(ticker.changePercent.fmt);
+				client.user.setActivity(`${ticker.price.fmt} (${ticker.changePercent.fmt}) `, { type: 'WATCHING' });
 			}
 
 		});
