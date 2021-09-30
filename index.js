@@ -31,10 +31,9 @@ client.once('ready', () => {
 
 				//change roles
 				if (currentRole) {
-					//await guild.me.roles.remove(currentRole).then(result => console.log('removed role: '+result));
+					await guild.me.roles.remove(currentRole).then(result => console.log('removed role: '+result));
 				}
-				//await guild.me.roles.add(newRole).then(result => console.log('added role: '+result));
-				await guild.members.edit(me,{roles:newRole});
+				await guild.me.roles.add(newRole).then(result => console.log('added role: '+result));
 
 				//after first run, is false
 				if (firstRun) {
