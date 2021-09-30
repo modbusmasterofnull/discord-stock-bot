@@ -7,7 +7,8 @@ class TickerGenerator {
 
 	async update() {
 		const response = await fetch(this.url);
-		console.log(response.json());
+		const dup = Object.assign({}, response.json());
+		console.log(dup);
 		return response.json();
 	}
 
