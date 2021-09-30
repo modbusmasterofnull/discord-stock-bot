@@ -15,10 +15,9 @@ client.once('ready', () => {
 		const ticker = new TickerGenerator(API_URL);
 		const quote = await ticker.get();
 		ticker.updateTicker(quote);
-		const formatting = ticker.formatting;
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
-		console.log(formatting);
+		console.log(ticker.formatting);
 		console.log(oldFormatting);
 		console.log(ticker.toString());
 		console.log(ticker.quote.marketState);
@@ -26,11 +25,11 @@ client.once('ready', () => {
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			if (formatting.decorator != oldFormatting?.decorator || formatting.color != oldFormatting?.color) {
+			if (ticker.formatting.decorator != oldFormatting?.decorator || ticker.formatting.color != oldFormatting?.color) {
 				console.log('formatting changed');
-				const newNickname = `TSLA ${formatting.decorator}`;
+				const newNickname = `TSLA ${ticker.formatting.decorator}`;
 				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers')) || 0;
-				const newRole = `tickers-${formatting.color}`;
+				const newRole = `tickers-${ticker.formatting.color}`;
 
 				//change nickname
 				guild.me.setNickname(newNickname);
@@ -45,11 +44,13 @@ client.once('ready', () => {
 
 			//update price into activity if market is open at all
 			if (ticker.quote.marketState != 'POSTPOST') {
+				console.log(ticker.price);
+				console.log(ticker.changePercent);
 				client.user.setActivity(`${ticker.price} (${ticker.changePercent}) `, { type: 'WATCHING' });
 			}
 
 		});
-		oldFormatting = Object.assign({}, formatting);
+		oldFormatting = Object.assign({}, ticker.formatting);
 	}, UPDATE_FREQUENCY_MS);
 
 	console.log('Bot is ready...');
