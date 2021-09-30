@@ -34,14 +34,14 @@ client.once('ready', () => {
 				const newRole = guild.roles.cache.find(role => role.name == `tickers-${ticker.formatting.color}`);
 
 				//change nickname
-				guild.me.setNickname(newNickname);
+				await guild.me.setNickname(newNickname);
 				console.log(`Setting nickname to ${newNickname}`);
 
 				//change roles
 				if (currentRole) {
-					guild.me.roles.remove(currentRole);
+					await guild.me.roles.remove(currentRole);
 				}
-				guild.me.roles.add(newRole);
+				await guild.me.roles.add(newRole);
 
 				//after first run, is false
 				if (firstRun) {
