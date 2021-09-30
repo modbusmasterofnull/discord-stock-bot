@@ -21,7 +21,7 @@ client.once('ready', () => {
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 			const me = await guild.members.fetch({query:'TSLA-STONKYBOT'}).then(result => {
-				let user = JSON.stringify(result).userID;
+				let user = result.userID;
 				console.log(user);
 			});
 
