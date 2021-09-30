@@ -46,7 +46,7 @@ client.once('ready', () => {
 
 			//update price into activity if market is open at all
 			if (ticker.quote.marketState != 'POSTPOST') {
-				await client.user.setActivity(`${ticker.price.fmt} (${ticker.changePercent.fmt}) `, { type: 'WATCHING' }).then(result => console.log('updated activity: '+result));
+				await client.user.setActivity(`${ticker.price.fmt} (${ticker.changePercent.fmt}) `, { type: 'WATCHING' })
 			}
 
 		});
