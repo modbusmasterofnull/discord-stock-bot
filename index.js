@@ -45,6 +45,7 @@ client.once('ready', () => {
 			if (ticker.quote.marketState != 'POSTPOST') {
 				//update nick
 				await guild.members.edit(me,{nick:newNickname}).then(result => console.log('Changed nick: '+result));
+				console.log(ticker.change.fmt)
 				client.user.setActivity(`\$${ticker.change.fmt} (${ticker.changePercent.fmt})`)
 			}
 
