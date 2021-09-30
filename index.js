@@ -8,6 +8,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once('ready', () => {
 	var oldFormatting;
+	var firstRun = true;
 
 	//interval to check price/do discord stuff
 	setInterval(async () => {
@@ -25,7 +26,7 @@ client.once('ready', () => {
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
-			if (ticker.formatting.decorator != oldFormatting?.decorator || ticker.formatting.color != oldFormatting?.color) {
+			if (ticker.formatting.decorator != oldFormatting?.decorator || ticker.formatting.color != oldFormatting?.color || firstRun) {
 				console.log('formatting changed');
 				const newNickname = `TSLA ${ticker.formatting.decorator}`;
 				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers')) || 0;
@@ -40,6 +41,11 @@ client.once('ready', () => {
 					guild.me.roles.remove(currentRole);
 				}
 				guild.me.roles.add(newRole);
+
+				//after first run, is false
+				if (firstRun) {
+					firstRun = false;
+				}
 			}
 
 			//update price into activity if market is open at all
