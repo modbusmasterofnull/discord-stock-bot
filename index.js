@@ -25,9 +25,9 @@ client.once('ready', () => {
 
 			if (ticker.formatting.decorator !== oldFormatting?.decorator || ticker.formatting.color !== oldFormatting?.color || firstRun) {
 				//console.log('formatting changed');
-				const currentRole = await guild.me.roles.cache.find(role => role.name.includes('tickers')).then(result => { console.log(result) });
+				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers'));
 				//console.log('current role: ' + currentRole);
-				const newRole = await guild.roles.cache.find(role => role.name == `tickers-${ticker.formatting.color}`);
+				const newRole = guild.roles.cache.find(role => role.name == `tickers-${ticker.formatting.color}`);
 
 				//change roles
 				if (currentRole) {
