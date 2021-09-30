@@ -18,11 +18,6 @@ client.once('ready', () => {
 		ticker.updateTicker(quote);
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
-		console.log('new formatting: '+JSON.stringify(ticker.formatting));
-		console.log('old formatting: '+JSON.stringify(oldFormatting));
-		console.log(ticker.toString());
-		console.log('market state: '+ticker.quote.marketState);
-
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
 
@@ -34,14 +29,14 @@ client.once('ready', () => {
 				const newRole = guild.roles.cache.find(role => role.name == `tickers-${ticker.formatting.color}`);
 
 				//change nickname
-				await guild.me.setNickname(newNickname);
+				await guild.me.setNickname(newNickname).then(() => console.log('changing nick'));
 				console.log(`Setting nickname to ${newNickname}`);
 
 				//change roles
 				if (currentRole) {
-					await guild.me.roles.remove(currentRole);
+					await guild.me.roles.remove(currentRole).then(result => console.log('removed role: '+result));
 				}
-				await guild.me.roles.add(newRole);
+				await guild.me.roles.add(newRole).theb(result => console.log('added role: '+result));
 
 				//after first run, is false
 				if (firstRun) {
@@ -51,9 +46,7 @@ client.once('ready', () => {
 
 			//update price into activity if market is open at all
 			if (ticker.quote.marketState != 'POSTPOST') {
-				console.log(ticker.price.fmt);
-				console.log(ticker.changePercent.fmt);
-				client.user.setActivity(`${ticker.price.fmt} (${ticker.changePercent.fmt}) `, { type: 'WATCHING' });
+				await client.user.setActivity(`${ticker.price.fmt} (${ticker.changePercent.fmt}) `, { type: 'WATCHING' }).then(result => console.log('updated activity: '+result));
 			}
 
 		});
