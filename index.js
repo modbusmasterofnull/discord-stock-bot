@@ -43,9 +43,9 @@ client.once('ready', () => {
 
 			//update activity if market is open at all
 			if (ticker.quote.marketState != 'POSTPOST') {
-				client.user.setActivity(`\$${ticker.change.fmt} (${ticker.changePercent.fmt})`)
 				//update nick
 				await guild.members.edit(me,{nick:newNickname}).then(result => console.log('Changed nick: '+result));
+				client.user.setActivity(`\$${ticker.change.fmt} (${ticker.changePercent.fmt})`)
 			}
 
 		});
