@@ -20,7 +20,7 @@ client.once('ready', () => {
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
-			const me = await guild.members.fetch({query:'TSLA-STONKYBOT'}).then(result => console.log(result.user.id));
+			const me = await guild.members.fetch({query:'TSLA-STONKYBOT'}).then(result => console.log(JSON.stringify(result)));
 
 			if (ticker.formatting.decorator !== oldFormatting?.decorator || ticker.formatting.color !== oldFormatting?.color || firstRun) {
 				console.log('formatting changed');
@@ -31,7 +31,7 @@ client.once('ready', () => {
 
 				//change nickname
 				//await guild.me.setNickname(newNickname).then(() => console.log('changing nick'));
-				await guild.members.edit(me,{nick:newNickname}).then(result => console.log('Changed nick: '+result));
+				//await guild.members.edit(me,{nick:newNickname}).then(result => console.log('Changed nick: '+result));
 				//console.log(`Setting nickname to ${newNickname}`);
 
 				//change roles
