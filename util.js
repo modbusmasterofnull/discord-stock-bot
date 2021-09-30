@@ -20,7 +20,7 @@ class TickerGenerator {
 	}
 
 	get marketState() {
-		return this.quote.marketState.includes('POST') ? 'post' : this._quote.marketState.toLowerCase();
+		return this.quote.marketState.includes('POST') ? 'post' : this.quote.marketState.toLowerCase();
 	}
 
 	get price() {
