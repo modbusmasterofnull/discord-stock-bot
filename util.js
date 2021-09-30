@@ -47,6 +47,10 @@ class TickerGenerator {
 		return formatting;
 	}
 
+	toString() {
+		return JSON.stringify(this,null,2);
+	}
+
 }
 
 export default TickerGenerator;

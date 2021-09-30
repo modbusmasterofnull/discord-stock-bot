@@ -15,6 +15,7 @@ client.once('ready', () => {
 		const ticker = new TickerGenerator(API_URL);
 		const quote = await ticker.get();
 		ticker.updateTicker(quote);
+		console.log(ticker);
 		const formatting = ticker.formatting;
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
@@ -22,6 +23,7 @@ client.once('ready', () => {
 			const guild = await client.guilds.fetch(guildId);
 
 			if (formatting.decorator != oldFormatting?.decorator || formatting.color != oldFormatting?.color) {
+				console.log('formatting changed');
 				const newNickname = `TSLA ${formatting.decorator}`;
 				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers')) || 0;
 				const newRole = `tickers-${formatting.color}`;
