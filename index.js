@@ -29,7 +29,8 @@ client.once('ready', () => {
 			if (ticker.formatting.decorator != oldFormatting?.decorator || ticker.formatting.color != oldFormatting?.color || firstRun) {
 				console.log('formatting changed');
 				const newNickname = `TSLA ${ticker.formatting.decorator}`;
-				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers')) || 0;
+				const currentRole = guild.me.roles.cache.find(role => role.name.includes('tickers'));
+				console.log(currentRole);
 				const newRole = `tickers-${ticker.formatting.color}`;
 
 				//change nickname
