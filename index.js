@@ -53,10 +53,6 @@ client.once('ready', () => {
 	}, UPDATE_FREQUENCY_MS);
 
 	console.log('Bot is ready...');
-
-	client.on('messageCreate', msg => {
-		console.log(msg);
-	});
 });
 
 
