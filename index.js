@@ -19,7 +19,7 @@ client.once('ready', () => {
 		const guildIds = client.guilds.cache.map(guild => guild.id);
 
 		console.log('new formatting: '+JSON.stringify(ticker.formatting));
-		console.log('old formatting: '+JSON.stringify(oldFormatting);
+		console.log('old formatting: '+JSON.stringify(oldFormatting));
 		console.log(ticker.toString());
 		console.log('market state: '+ticker.quote.marketState);
 
