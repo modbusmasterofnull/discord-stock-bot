@@ -6,9 +6,9 @@ class TickerGenerator {
 	}
 
 	async update() {
-		const response = await fetch(this.url);
-		const quote = await response.json().quoteSummary?.result[0]?.price;
-		return quote;
+		const response = await fetch(this.url).then(
+			return await response.json().quoteSummary?.result[0]?.price;
+		);
 	}
 
 	get quote() {
@@ -36,8 +36,6 @@ class TickerGenerator {
 	}
 
 	parseFormatting(q) {
-		console.log('parse formatting function');
-		console.log(q);
 		let formatting = {};
 
 		if (q[`${q.marketState}MarketChangePercent`]?.raw >= 0 && result[`${q.marketState}MarketChangePercent`]?.raw < 0.05) {
