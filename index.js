@@ -13,7 +13,7 @@ client.once('ready', () => {
 	setInterval(async () => {
 
 		const ticker = new TickerGenerator(API_URL);
-		const quote = await ticker.update().then(() =>{console.log(quote)});
+		const quote = await ticker.update().then(result =>{console.log(result)});
 		ticker.quote = ticker.parseMarketPrice(quote);
 		console.log(`Quote = ${quote}`);
 		const formatting = ticker.parseFormatting(quote);
