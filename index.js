@@ -20,7 +20,10 @@ client.once('ready', () => {
 
 		guildIds.forEach(async guildId => {
 			const guild = await client.guilds.fetch(guildId);
-			const me = await guild.members.fetch({query:'TSLA-STONKYBOT'}).then(result => console.log(JSON.stringify(result)[0].userID));
+			const me = await guild.members.fetch({query:'TSLA-STONKYBOT'}).then(result => {
+				let user = JSON.stringify(result).userID;
+				console.log(user);
+			});
 
 			if (ticker.formatting.decorator !== oldFormatting?.decorator || ticker.formatting.color !== oldFormatting?.color || firstRun) {
 				console.log('formatting changed');
