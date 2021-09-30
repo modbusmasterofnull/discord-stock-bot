@@ -9,7 +9,7 @@ class TickerGenerator {
 		const response = await fetch(this.url);
 		const data = await response.json().then(result => {
 			const final = result.quoteSummary?.result[0]?.price;
-			console.log(`update: ${final}`);
+			console.log(`update: ${JSON.stringify(final)}`);
 			return final;
 		});
 		//return data;
