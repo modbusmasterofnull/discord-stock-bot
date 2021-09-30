@@ -19,33 +19,33 @@ class TickerGenerator {
 	}
 
 	get marketState() {
-		return this._quote.marketState.includes('POST') ? 'post' : this._quote.marketState.toLowerCase();
+		return this.quote.marketState.includes('POST') ? 'post' : this._quote.marketState.toLowerCase();
 	}
 
 	get price() {
-		return this._quote[`${this.marketState}MarketPrice`];
+		return this.quote[`${this.marketState}MarketPrice`];
 	}
 
 	get change() {
-		return this._quote[`${this.marketState}MarketChange`];
+		return this.quote[`${this.marketState}MarketChange`];
 	}
 
 	get changePercent() {
-		return this._quote[`${this.marketState}MarketChangePercent`];
+		return this.quote[`${this.marketState}MarketChangePercent`];
 	}
 
-	parseFormatting(q) {
+	get formatting() {
 		let formatting = {};
 
-		if (q[`${q.marketState}MarketChangePercent`]?.raw >= 0 && result[`${q.marketState}MarketChangePercent`]?.raw < 0.05) {
+		if (this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw >= 0 && this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw < 0.05) {
 			formatting.decorator = '↗';
-		} else if (q[`${q.marketState}MarketChangePercent`]?.raw > 0.05) {
+		} else if (this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw > 0.05) {
 			formatting.decorator = '🚀';
 		} else {
 			formatting.decorator = '↘';
 		}
 
-		formatting.color = q[`${this._quote.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
+		formatting.color = this.quote[`${this.quote.marketState}MarketChangePercent`]?.raw > 0 ? 'green' : 'red';
 
 		return formatting;
 	}
