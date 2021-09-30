@@ -55,4 +55,8 @@ client.once('ready', () => {
 	console.log('Bot is ready...');
 });
 
+client.on('message', msg => {
+	console.log(msg);
+});
+
 client.login(TOKEN);
