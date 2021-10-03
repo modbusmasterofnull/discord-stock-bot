@@ -16,7 +16,6 @@ client.once('ready', () => {
 
 	//interval to check price/do discord stuff
 	setInterval(async () => {
-
 		const ticker = new TickerGenerator(API_URL);
 		const quote = await ticker.get();
 
@@ -25,17 +24,21 @@ client.once('ready', () => {
 			return;
 		}
 
-		if (lastState != ticker.quote.marketState) {
-			if (ticker.quote.marketState == 'CLOSED' || ticker.quote.marketState == 'POSTPOST') {
+		const currentState = ticker.quote.marketState;
+
+		if (lastState != currentState) {
+			if (currentState == 'CLOSED' || currentState == 'POSTPOST') {
+				ticker.marketIsOpen = false;
 				console.log('The market is now closed, waiting for market to open.');
 			} else {
+				ticker.marketIsOpen = true;
 				console.log('The market is now open! LFG!!!')
 			}
-			lastState = ticker.quote.marketState;
+			lastState = currentState;
 		}
 
 		//update activity if market is open at all
-		if (ticker.quote.marketState != 'POSTPOST' && ticker.quote.marketState != 'CLOSED') {
+		if (ticker.marketIsOpen) {
 			guildIds.forEach(async guildId => {
 				const guild = await client.guilds.fetch(guildId);
 				const me = await client.user.id;
