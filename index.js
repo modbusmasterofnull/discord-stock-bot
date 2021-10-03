@@ -16,9 +16,9 @@ client.once('ready', () => {
 
 		const ticker = new TickerGenerator(API_URL);
 		const quote = await ticker.get()
-			.then(() => console.log('quote retrieved');)
-			.catch(err => console.error(err););
-			
+			.then(() => console.log('quote retrieved'))
+			.catch(err => console.error(err));
+
 		ticker.updateTicker(quote);
 		console.log(ticker.quote.marketState);
 
