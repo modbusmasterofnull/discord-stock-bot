@@ -17,6 +17,7 @@ client.once('ready', () => {
 		const ticker = new TickerGenerator(API_URL);
 		const quote = await ticker.get();
 		ticker.updateTicker(quote);
+		console.log(ticker.quote.marketState);
 
 		//update activity if market is open at all
 		if (ticker.quote.marketState != 'POSTPOST' || ticker.quote.marketState != 'CLOSED') {
