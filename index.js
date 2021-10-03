@@ -19,8 +19,12 @@ client.once('ready', () => {
 			.then(() => console.log('quote retrieved'))
 			.catch(err => console.error(err));
 
-		ticker.updateTicker(quote);
-		console.log(ticker.quote.marketState);
+		if (ticker.updateTicker(quote)) {
+			console.log(ticker.quote.marketState);
+		} else {
+			console.error('ERROR: TICKER NOT UPDATED');
+			return;
+		}
 
 		//update activity if market is open at all
 		if (ticker.quote.marketState != 'POSTPOST' && ticker.quote.marketState != 'CLOSED') {
