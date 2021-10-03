@@ -7,6 +7,8 @@ const API_URL = "https://query1.finance.yahoo.com/v10/finance/quoteSummary/tsla?
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once('ready', () => {
+	console.log('Bot is ready...');
+
 	var oldFormatting;
 	var firstRun = true;
 	var lastState = 'CLOSED';
@@ -66,8 +68,6 @@ client.once('ready', () => {
 		}
 		oldFormatting = Object.assign({}, ticker.formatting);
 	}, UPDATE_FREQUENCY_MS);
-
-	console.log('Bot is ready...');
 });
 
 
