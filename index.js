@@ -9,6 +9,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.once('ready', () => {
 	var oldFormatting;
 	var firstRun = true;
+	var lastState = 'CLOSED';
 	const guildIds = client.guilds.cache.map(guild => guild.id);
 
 	//interval to check price/do discord stuff
@@ -17,11 +18,18 @@ client.once('ready', () => {
 		const ticker = new TickerGenerator(API_URL);
 		const quote = await ticker.get();
 
-		if (ticker.updateTicker(quote)) {
-			console.log(ticker.quote.marketState);
-		} else {
+		if (!ticker.updateTicker(quote)) {
 			console.error('ERROR: TICKER NOT UPDATED');
 			return;
+		}
+
+		if (lastState != ticker.quote.marketState) {
+			if (ticker.quote.marketState == 'CLOSED' || ticker.quote.marketState == 'POSTPOST') {
+				console.log('The market is now closed, waiting for market to open.');
+			} else {
+				console.log('The market is now open! LFG!!!')
+			}
+			lastState = ticker.quote.marketState;
 		}
 
 		//update activity if market is open at all
