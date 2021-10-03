@@ -11,8 +11,12 @@ class TickerGenerator {
 	}
 
 	updateTicker(data) {
-		this.quote =  data?.quoteSummary?.result[0]?.price;
-		return true;
+		this.quote = data.quoteSummary?.result[0]?.price;
+		if (this.quote) {
+			return true;
+		} else{
+			return false;
+		}
 	}
 
 	get marketState() {
