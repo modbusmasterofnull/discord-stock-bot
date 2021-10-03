@@ -15,12 +15,15 @@ client.once('ready', () => {
 	setInterval(async () => {
 
 		const ticker = new TickerGenerator(API_URL);
-		const quote = await ticker.get();
+		const quote = await ticker.get()
+			.then(() => console.log('quote retrieved');)
+			.catch(err => console.error(err););
+			
 		ticker.updateTicker(quote);
 		console.log(ticker.quote.marketState);
 
 		//update activity if market is open at all
-		if (ticker.quote.marketState != 'POSTPOST' || ticker.quote.marketState != 'CLOSED') {
+		if (ticker.quote.marketState != 'POSTPOST' && ticker.quote.marketState != 'CLOSED') {
 			guildIds.forEach(async guildId => {
 				const guild = await client.guilds.fetch(guildId);
 				const me = await client.user.id;
