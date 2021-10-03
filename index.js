@@ -11,7 +11,7 @@ client.once('ready', () => {
 
 	var oldFormatting;
 	var firstRun = true;
-	var lastState = 'CLOSED';
+	var lastState;
 	const guildIds = client.guilds.cache.map(guild => guild.id);
 
 	//interval to check price/do discord stuff
