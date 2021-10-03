@@ -16,15 +16,16 @@ client.once('ready', () => {
 
 		const ticker = new TickerGenerator(API_URL);
 		const quote = await ticker.get()
-			.then(() => console.log('quote retrieved'))
+			.then(() => {
+				console.log('quote retrieved');
+				if (ticker.updateTicker(quote)) {
+					console.log(ticker.quote.marketState);
+				} else {
+					console.error('ERROR: TICKER NOT UPDATED');
+					return;
+				}
+			)
 			.catch(err => console.error(err));
-
-		if (ticker.updateTicker(quote)) {
-			console.log(ticker.quote.marketState);
-		} else {
-			console.error('ERROR: TICKER NOT UPDATED');
-			return;
-		}
 
 		//update activity if market is open at all
 		if (ticker.quote.marketState != 'POSTPOST' && ticker.quote.marketState != 'CLOSED') {
