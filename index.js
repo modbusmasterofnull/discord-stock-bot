@@ -24,7 +24,7 @@ client.once('ready', () => {
 					console.error('ERROR: TICKER NOT UPDATED');
 					return;
 				}
-			)
+			})
 			.catch(err => console.error(err));
 
 		//update activity if market is open at all
